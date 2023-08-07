@@ -35,4 +35,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Look(const FVector2D AxisInput);
+
+	UFUNCTION(BlueprintCallable)
+	const FTransform CameraTransform()
+	{
+		return CameraComponent->GetComponentTransform();
+	};
 };

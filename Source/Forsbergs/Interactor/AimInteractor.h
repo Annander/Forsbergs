@@ -4,34 +4,44 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "RandomMoveComponent.generated.h"
+#include "AimInteractor.generated.h"
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class FORSBERGS_API URandomMoveComponent : public UActorComponent
+class FORSBERGS_API UAimInteractor : public UActorComponent
 {
 	GENERATED_BODY()
 
-private:
+private:	
 	UPROPERTY()
-	float Timer;
+	AActor* CurrentTarget;
 
-	UFUNCTION()
-	void RandomMove();
+protected:
+	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	void RandomInterval();
-
-	UPROPERTY()
-	float Interval = 1.f;
+	void TriggerInteractives();
 
 public:
-	URandomMoveComponent();
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	bool bUseTick;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	float Radius = 1000.f;
+	float InteractionRange = 500.f;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	FVector2D MaxMinInterval = FVector2D(1.f, 4.f);
+	UAimInteractor();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	UFUNCTION(BlueprintCallable)
+	void Shoot();
+
+	const AActor* GetCurrentTarget()
+	{
+		return CurrentTarget;
+	};
+
+	bool HasTarget()
+	{
+		return CurrentTarget != nullptr;
+	};
 };

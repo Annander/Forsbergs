@@ -7,6 +7,7 @@
 URandomMoveComponent::URandomMoveComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
+	RandomInterval();
 }
 
 void URandomMoveComponent::RandomMove()
@@ -14,6 +15,11 @@ void URandomMoveComponent::RandomMove()
 	const auto Owner = GetOwner();
 	const auto RandomLocation = UStatueHelpers::RandomLocation(Owner->GetActorLocation(), Radius);
 	Owner->SetActorLocation(RandomLocation);
+}
+
+void URandomMoveComponent::RandomInterval()
+{
+	Interval = UKismetMathLibrary::RandomFloatInRange(MaxMinInterval.X, MaxMinInterval.Y);
 }
 
 void URandomMoveComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -26,5 +32,6 @@ void URandomMoveComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	{
 		Timer -= Interval;
 		RandomMove();
+		RandomInterval();
 	}
 }

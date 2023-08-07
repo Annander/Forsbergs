@@ -12,6 +12,10 @@ AStatuePlayer::AStatuePlayer()
 	CapsuleComponent->InitCapsuleSize(55.f, 96.f);
 	CapsuleComponent->SetSimulatePhysics(true);
 
+	// Hacky way to stop the capsule from inheriting collision rotation.
+	constexpr float InertiaTensorScale = 10000.f;
+	CapsuleComponent->BodyInstance.InertiaTensorScale = FVector(InertiaTensorScale, InertiaTensorScale, InertiaTensorScale);
+
 	SetRootComponent(CapsuleComponent);
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));

@@ -17,23 +17,26 @@ void UInteractorComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 	TArray<FOverlapResult> CandidateActors;
 
-	// Find nearby actors, by channel
-	GetWorld()->OverlapMultiByChannel(CandidateActors,
+	auto bBlockingHit = GetWorld()->OverlapMultiByChannel(CandidateActors,
 		Owner->GetActorLocation(),
 		FQuat::Identity,
 		ECollisionChannel::ECC_GameTraceChannel1,
 		TraceSphere
 	);
 
-	// Loop through found actors
-	for (int i = 0; i < CandidateActors.Num(); i++)
-	{
-		// Call the interface on each collected actor
-		AActor* ActorReference = CandidateActors[i].GetActor();
-
-		if (ActorReference->Implements<UPickupInterface>())
+	// Find nearby actors, by channel
+	//if (bBlockingHit)
+	//{
+		// Loop through found actors
+		for (int i = 0; i < CandidateActors.Num(); i++)
 		{
-			IPickupInterface::Execute_Pickup(ActorReference);
+			// Call the interface on each collected actor
+			AActor* ActorReference = CandidateActors[i].GetActor();
+
+			if (ActorReference->Implements<UPickupInterface>())
+			{
+				IPickupInterface::Execute_Pickup(ActorReference);
+			}
 		}
-	}
+	//}
 }
