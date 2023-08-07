@@ -9,7 +9,7 @@ void AStatueManager::SpawnStatue(FVector Location)
 	Instances.Add(NewInstance);
 }
 
-void AStatueManager::Initialize()
+void AStatueManager::Initialize(const TSoftClassPtr<AStatueActor> StatueClass)
 {
 	LoadedObject = StatueClass.LoadSynchronous();
 }

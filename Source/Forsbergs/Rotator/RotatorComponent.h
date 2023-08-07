@@ -6,7 +6,6 @@
 #include "Components/ActorComponent.h"
 #include "RotatorComponent.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class FORSBERGS_API URotatorComponent : public UActorComponent
 {

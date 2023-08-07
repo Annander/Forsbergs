@@ -23,12 +23,9 @@ private:
 	UClass* LoadedObject;
 
 public:
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
-	TSoftClassPtr<AStatueActor> StatueClass;
-
 	UFUNCTION()
 	void SpawnStatue(FVector Location);
 
 	UFUNCTION()
-	void Initialize();
+	void Initialize(const TSoftClassPtr<AStatueActor> StatueClass);
 };

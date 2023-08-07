@@ -5,9 +5,9 @@
 void AForsbergsGameModeBase::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
 {
 	Super::InitGame(MapName, Options, ErrorMessage);
+	
 	StatueManager = GetWorld()->SpawnActor<AStatueManager>();
-	StatueManager->StatueClass = StatueClass;
-	StatueManager->Initialize();
+	StatueManager->Initialize(StatueClass);
 }
 
 void AForsbergsGameModeBase::SpawnStatue(const FVector Location)
