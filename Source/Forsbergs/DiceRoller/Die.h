@@ -25,6 +25,8 @@ private:
 	UFUNCTION()
 	bool DotCompare(float Dot, const int32 Positive, const int32 Negative, int32 &Result);
 
+	FVector GroundNormal;
+
 	FTimerHandle TimerHandle;
 
 protected:

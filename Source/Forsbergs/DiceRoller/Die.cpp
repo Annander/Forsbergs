@@ -24,30 +24,31 @@ void ADie::Tick(float DeltaTime)
 
 void ADie::OnHit(UPrimitiveComponent* HitComoponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Blue, FString("Hit!"));
+	//GEngine->AddOnScreenDebugMessage(-1, .5f, FColor::Blue, FString("Hit!"));
+	GroundNormal = Hit.ImpactNormal;
 }
 
 void ADie::OnSleep(UPrimitiveComponent* SleepingComponent, FName BoneName)
 {
 	// Check which side is up and make that the public result
-	GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Blue, FString("Fell asleep..."));
+	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Blue, FString("Fell asleep..."));
 
 	// Z+ = 1
 	// Z- = 6
-	auto UpDot = FVector::DotProduct(FVector::UpVector, GetActorUpVector());
+	auto UpDot = FVector::DotProduct(GroundNormal, GetActorUpVector());
 	if (DotCompare(UpDot, 1, 6, DieResult))
 		return;
 
 	// Y+ = 4
 	// Y- = 3
-	auto RightDot = FVector::DotProduct(FVector::RightVector, GetActorRightVector());
+	auto RightDot = FVector::DotProduct(GroundNormal, GetActorRightVector());
 	if (DotCompare(RightDot, 4, 3, DieResult))
 		return;
 
 	// X+ = 2
 	// X- = 5
-	auto ForwardDot = FVector::DotProduct(FVector::ForwardVector, GetActorForwardVector());
-	if (DotCompare(RightDot, 2, 5, DieResult))
+	auto ForwardDot = FVector::DotProduct(GroundNormal, GetActorForwardVector());
+	if (DotCompare(ForwardDot, 2, 5, DieResult))
 		return;
 }
 
