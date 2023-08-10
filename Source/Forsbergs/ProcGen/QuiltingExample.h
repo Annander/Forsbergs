@@ -19,25 +19,15 @@ public:
 
 private:
 	TArray<ATileActor*> CandidateInstances;
-	TArray<UTile*> Tiles;
 
 protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere)
-	int32 TileCount = 10;
+	int32 SpawnCount = 10;
 
 	UFUNCTION()
 	void GenerateQuilt();
-
-	void RoamingGenerator();
-	void AssignConnections(UTile* Tile);
-
-	void AssignType(UTile* Tile);
-
-	bool IsCoordinateOccupied(int32 X, int32 Y);
-
-	UTile* GetTileByCoordinate(int32 X, int32 Y);
 
 public:	
 	virtual void OnConstruction(const FTransform& Transform) override;

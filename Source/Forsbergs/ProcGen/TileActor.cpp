@@ -10,6 +10,17 @@ ATileActor::ATileActor()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+void ATileActor::OnConstruction(const FTransform& Transform)
+{
+	auto ConnectionComponents = GetComponentsByClass(UTileActorConnection::StaticClass());
+	
+	for (int i = 0; i < ConnectionComponents.Num(); i++)
+	{
+		auto ConnectionCast = Cast<UTileActorConnection>(ConnectionComponents[i]);
+		Connections.Add(ConnectionCast);
+	}
+}
+
 // Called when the game starts or when spawned
 void ATileActor::BeginPlay()
 {
@@ -23,26 +34,3 @@ void ATileActor::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-
-bool ATileActor::Evaluate(TArray<TEnumAsByte<ETileDirection>> CandidateDirections)
-{
-	int32 Count = CandidateDirections.Num();
-
-	if (Count != RequiredDirections.Num())
-		return false;
-
-	for (int i = 0; i < RequiredDirections.Num(); i++)
-	{
-		for (int r = 0; r < CandidateDirections.Num(); r++)
-		{
-			if (RequiredDirections[i] == CandidateDirections[r])
-				Count--;
-		}
-	}
-
-	if (Count == 0)
-		return true;
-
-	return false;
-}
-

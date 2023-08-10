@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "TileDirection.h"
+#include "TileActorConnection.h"
 #include "TileActor.generated.h"
 
 UCLASS(BlueprintType,Blueprintable)
@@ -16,16 +16,21 @@ public:
 	// Sets default values for this actor's properties
 	ATileActor();
 
+	UPROPERTY(EditAnywhere)
+	TArray<UTileActorConnection*> Connections;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
+	virtual void OnConstruction(const FTransform& Transform) override;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	/*
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<TEnumAsByte<ETileDirection>> RequiredDirections;
-
-	bool Evaluate(TArray<TEnumAsByte<ETileDirection>> CandidateDirections);
+	TArray<> RequiredDirections;
+	*/
 };
