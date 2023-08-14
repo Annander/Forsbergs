@@ -15,11 +15,6 @@ AProcMeshExample::AProcMeshExample()
 void AProcMeshExample::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void AProcMeshExample::OnConstruction(const FTransform& Transform)
-{
-	Super::OnConstruction(Transform);
 
 	MeshData.SetNum(3);
 
@@ -47,13 +42,59 @@ void AProcMeshExample::OnConstruction(const FTransform& Transform)
 	}
 }
 
+void AProcMeshExample::OnConstruction(const FTransform& Transform)
+{
+	Super::OnConstruction(Transform);
+
+	/*
+	MeshData.SetNum(3);
+
+	// Floor
+	MeshData[0] = new FMeshData();
+	MeshData[0]->SectionNumber = 0;
+	MeshData[0]->Material = FloorMaterial;
+
+	// Ceiling
+	MeshData[1] = new FMeshData();
+	MeshData[1]->SectionNumber = 1;
+	MeshData[1]->Material = CeilingMaterial;
+
+	// Walls
+	MeshData[2] = new FMeshData();
+	MeshData[2]->SectionNumber = 2;
+	MeshData[2]->Material = WallMaterial;
+
+	RoamingGenerator();
+	GenerateMesh();
+
+	for (int i = 0; i < MeshData.Num(); i++)
+	{
+		CreateSection(MeshData[i]);
+	}
+	*/
+}
+
 // Called every frame
 void AProcMeshExample::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	return;
+	auto RandomIndex = FMath::RandRange(0, Tiles.Num() - 1);
+	auto RandomTile = Tiles[RandomIndex];
 
+	auto HalfSize = TileSize * .5f;
+
+	FVector Location = GetActorLocation();
+	Location.X -= HalfSize;
+	Location.Y -= HalfSize;
+
+	FVector NewVector = Location + 
+		(FVector(RandomTile->X, RandomTile->Y, 0) * TileSize) + 
+		FVector(HalfSize, HalfSize, 0);
+
+	DrawDebugPoint(GetWorld(), NewVector, 25.f, FColor::Red, false, .5f);
+
+	/*
 	FVector Location = GetActorLocation();
 	Location.X -= TileSize * .5f;
 	Location.Y -= TileSize * .5f;
@@ -96,7 +137,7 @@ void AProcMeshExample::Tick(float DeltaTime)
 		}
 
 		DrawDebugString(GetWorld(), BottomLeftCorner, DebugString, 0, FColor::White, .0f);
-	}
+	}*/
 }
 
 void AProcMeshExample::RoamingGenerator()
@@ -145,7 +186,6 @@ void AProcMeshExample::GenerateMesh()
 	{
 		AddTile(Tiles[i]);
 	}
-
 }
 
 void AProcMeshExample::AddQuad(FMeshData* Data, FVector v1, FVector v2, FVector v3, FVector v4, FVector Normal, float UVXScale, float UVYScale)

@@ -7,6 +7,8 @@
 #include "Components/StaticMeshComponent.h"
 #include "Die.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDieResultSignature, int32, DieResult);
+
 UCLASS()
 class FORSBERGS_API ADie : public AActor
 {
@@ -25,19 +27,23 @@ private:
 	UFUNCTION()
 	bool DotCompare(float Dot, const int32 Positive, const int32 Negative, int32 &Result);
 
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const;
+
 	FVector GroundNormal;
+
+	FVector StartingVelocity;
 
 	FTimerHandle TimerHandle;
 
 protected:
-	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Replicated)
 	UStaticMeshComponent* StaticMeshComponent;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
 	float DotThreshold = .9f;
 
-	UPROPERTY(BlueprintReadOnly)
-	int32 DieResult;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere)
+	float StopTime = .5f;
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -45,4 +51,13 @@ protected:
 public:
 	ADie();
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintCallable)
+	void ComeToStop(float Time);
+
+	UPROPERTY(BlueprintReadOnly)
+	int32 DieResult;
+
+	UPROPERTY(BlueprintAssignable)
+	FDieResultSignature OnDieResult;
 };

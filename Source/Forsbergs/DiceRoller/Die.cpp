@@ -1,9 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "Die.h"
 
+#include <Net/UnrealNetwork.h>
+
 // Sets default values
 ADie::ADie()
 {
+	bReplicates = true;
+
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
@@ -19,7 +23,18 @@ ADie::ADie()
 
 void ADie::Tick(float DeltaTime)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Blue, FString::FromInt(DieResult));
+	if (GetWorld()->GetTimerManager().IsTimerActive(TimerHandle))
+	{
+		auto T = GetWorld()->GetTimerManager().GetTimerElapsed(TimerHandle) / StopTime;
+		auto NewVelocity = FMath::Lerp(StartingVelocity, FVector::ZeroVector, T);
+		StaticMeshComponent->SetPhysicsLinearVelocity(NewVelocity);
+	}
+}
+
+void ADie::ComeToStop(float Time)
+{
+	StartingVelocity = GetVelocity();
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ADie::OnTimerFinished, StopTime, false);
 }
 
 void ADie::OnHit(UPrimitiveComponent* HitComoponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
@@ -54,7 +69,7 @@ void ADie::OnSleep(UPrimitiveComponent* SleepingComponent, FName BoneName)
 
 void ADie::OnTimerFinished()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 10.f, FColor::Blue, FString("Timer finished!"));
+
 }
 
 bool ADie::DotCompare(float Dot, const int32 Positive, const int32 Negative, int32& Result)
@@ -62,20 +77,28 @@ bool ADie::DotCompare(float Dot, const int32 Positive, const int32 Negative, int
 	if (Dot >= DotThreshold)
 	{
 		Result = Positive;
+		OnDieResult.Broadcast(Result);
 		return true;
 	}
 	else if (Dot <= -DotThreshold)
 	{
 		Result = Negative;
+		OnDieResult.Broadcast(Result);
 		return true;
 	}
 
 	return false;
 }
 
+void ADie::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(ADie, StaticMeshComponent);
+}
+
 // Called when the game starts or when spawned
 void ADie::BeginPlay()
 {
 	Super::BeginPlay();
-	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &ADie::OnTimerFinished, 3.f, false);
 }
