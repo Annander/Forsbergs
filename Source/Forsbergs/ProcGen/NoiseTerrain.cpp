@@ -21,8 +21,8 @@ void ANoiseTerrain::OnConstruction(const FTransform& Transform)
 	GenerateNoiseMap();
 	GenerateMesh();
 
-	//UKismetProceduralMeshLibrary::CalculateTangentsForMesh(Vertices, Triangles, UV, Normals, Tangents);
-
+	UKismetProceduralMeshLibrary::CalculateTangentsForMesh(Vertices, Triangles, UV, Normals, Tangents);
+	
 	ProceduralMeshComponent->CreateMeshSection(0, Vertices, Triangles, Normals, UV, Colors, Tangents, true);
 	ProceduralMeshComponent->SetMaterial(0, Material);
 }
@@ -35,8 +35,8 @@ void ANoiseTerrain::BeginPlay()
 	GenerateNoiseMap();
 	GenerateMesh();
 
-	//UKismetProceduralMeshLibrary::CalculateTangentsForMesh(Vertices, Triangles, UV, Normals, Tangents);
-
+	UKismetProceduralMeshLibrary::CalculateTangentsForMesh(Vertices, Triangles, UV, Normals, Tangents);
+	
 	ProceduralMeshComponent->CreateMeshSection(0, Vertices, Triangles, Normals, UV, Colors, Tangents, true);
 	ProceduralMeshComponent->SetMaterial(0, Material);
 }
@@ -64,14 +64,14 @@ void ANoiseTerrain::GenerateMesh()
 	Normals.SetNum(Vertices.Num());
 	UV.SetNum(Vertices.Num());
 
-	float StepSize = 1.f / Resolution;
+	const float StepSize = 1.f / Resolution;
 
 	for (int v = 0, y = 0; y <= Resolution; y++)
 	{
 		for (int x = 0; x <= Resolution; x++, v++)
 		{
-			int32 Index = y * Resolution + x;
-			float Noise = NoiseArray[Index];
+			const int32 Index = y * Resolution + x;
+			const float Noise = NoiseArray[Index];
 			Vertices[v] = FVector((x * StepSize - .5f), (y * StepSize - .5f), Noise) * ProcMeshScale;
 			UV[v] = FVector2D(x * StepSize, y * StepSize);
 		}
@@ -100,9 +100,9 @@ void ANoiseTerrain::CalculateNormals()
 	{
 		for (int x = 0; x <= Resolution; x++, v++)
 		{
-			//FVector Normal = FVector::UpVector;
-			//Normal.Z = FMath::Square(1.f - (Normal.X * Normal.X + Normal.Y * Normal.Y));
-			//Normals[v] = Normal;
+			FVector Normal = FVector::UpVector;
+			Normal.Z = FMath::Square(1.f - (Normal.X * Normal.X + Normal.Y * Normal.Y));
+			Normals[v] = Normal;
 		}
 	}
 }

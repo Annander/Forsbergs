@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "../ForsbergsGameModeBase.h"
+#include "..\ForsbergsGameMode.h"
 #include "StatueSpawnPoint.generated.h"
 
 UCLASS()

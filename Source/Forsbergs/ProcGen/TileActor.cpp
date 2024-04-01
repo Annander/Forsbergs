@@ -1,6 +1,4 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "TileActor.h"
 
 // Sets default values
@@ -12,6 +10,7 @@ ATileActor::ATileActor()
 
 void ATileActor::OnConstruction(const FTransform& Transform)
 {
+	/*
 	auto ConnectionComponents = GetComponentsByClass(UTileActorConnection::StaticClass());
 	
 	for (int i = 0; i < ConnectionComponents.Num(); i++)
@@ -19,6 +18,7 @@ void ATileActor::OnConstruction(const FTransform& Transform)
 		auto ConnectionCast = Cast<UTileActorConnection>(ConnectionComponents[i]);
 		Connections.Add(ConnectionCast);
 	}
+	*/
 }
 
 // Called when the game starts or when spawned

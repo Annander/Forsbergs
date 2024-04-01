@@ -12,17 +12,13 @@ class FORSBERGS_API UInteractorComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-private:
 	FCollisionShape TraceSphere;
 
 public:	
-	// Sets default values for this component's properties
 	UInteractorComponent();
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	float Radius = 500.f;
 
-public:	
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };

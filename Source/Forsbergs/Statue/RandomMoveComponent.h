@@ -11,7 +11,6 @@ class FORSBERGS_API URandomMoveComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
-private:
 	UPROPERTY()
 	float Timer;
 

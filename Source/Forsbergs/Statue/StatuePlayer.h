@@ -13,7 +13,6 @@ class FORSBERGS_API AStatuePlayer : public APawn
 {
 	GENERATED_BODY()
 
-private:
 	float CurrentLookRotation;
 
 protected:
@@ -24,7 +23,6 @@ protected:
 	UCapsuleComponent* CapsuleComponent;
 
 public:
-	// Sets default values for this pawn's properties
 	AStatuePlayer();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere)
@@ -37,7 +35,7 @@ public:
 	void Look(const FVector2D AxisInput);
 
 	UFUNCTION(BlueprintCallable)
-	const FTransform CameraTransform()
+	FTransform CameraTransform() const
 	{
 		return CameraComponent->GetComponentTransform();
 	};

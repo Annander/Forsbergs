@@ -79,20 +79,20 @@ void AProcMeshExample::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	auto RandomIndex = FMath::RandRange(0, Tiles.Num() - 1);
-	auto RandomTile = Tiles[RandomIndex];
+	const auto RandomIndex = FMath::RandRange(0, Tiles.Num() - 1);
+	const auto RandomTile = Tiles[RandomIndex];
 
-	auto HalfSize = TileSize * .5f;
+	const auto HalfSize = TileSize * .5f;
 
 	FVector Location = GetActorLocation();
 	Location.X -= HalfSize;
 	Location.Y -= HalfSize;
 
-	FVector NewVector = Location + 
+	const auto RandomLocationInTile = Location + 
 		(FVector(RandomTile->X, RandomTile->Y, 0) * TileSize) + 
 		FVector(HalfSize, HalfSize, 0);
 
-	DrawDebugPoint(GetWorld(), NewVector, 25.f, FColor::Red, false, .5f);
+	DrawDebugPoint(GetWorld(), RandomLocationInTile, 25.f, FColor::Red, false, .5f);
 
 	/*
 	FVector Location = GetActorLocation();
@@ -157,7 +157,7 @@ void AProcMeshExample::RoamingGenerator()
 	{
 		while (IsCoordinateOccupied(x,y))
 		{
-			auto Direction = (ETileDirection)FMath::RandRange(0, 6) + 1;
+			const auto Direction = static_cast<ETileDirection>(FMath::RandRange(0, 4)) + 1;
 
 			if (Direction == ETileDirection::North) x++;
 			if (Direction == ETileDirection::South) x--;

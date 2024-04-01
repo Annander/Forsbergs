@@ -14,6 +14,7 @@ ADie::ADie()
 	StaticMeshComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	StaticMeshComponent->SetSimulatePhysics(true);
 	StaticMeshComponent->SetGenerateOverlapEvents(true);
+	StaticMeshComponent->SetIsReplicated(true);
 
 	SetRootComponent(StaticMeshComponent);
 

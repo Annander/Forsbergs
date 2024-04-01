@@ -17,7 +17,6 @@ class FORSBERGS_API UScoreSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 	
-private:
 	int32 CurrentScore;
 
 public:
@@ -26,11 +25,11 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FScoreTickSignature OnScoreTick;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void AddScore();
 
 	UFUNCTION(BlueprintCallable)
-	int32 GetScore()
+	int32 GetScore() const
 	{
 		return CurrentScore;
 	};

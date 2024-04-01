@@ -18,6 +18,8 @@ AStatuePlayer::AStatuePlayer()
 
 	SetRootComponent(CapsuleComponent);
 
+	CapsuleComponent->SetIsReplicated(true);
+
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(CapsuleComponent);
 	CameraComponent->SetRelativeLocation(FVector(0,0,100.f));

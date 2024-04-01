@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../ForsbergsGameModeBase.h"
+#include "..\ForsbergsGameMode.h"
 #include "GameMode_ProcGen.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class FORSBERGS_API AGameMode_ProcGen : public AForsbergsGameModeBase
+class FORSBERGS_API AGameMode_ProcGen : public AForsbergsGameMode
 {
 	GENERATED_BODY()
 	

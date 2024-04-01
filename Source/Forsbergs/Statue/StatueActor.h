@@ -15,7 +15,6 @@ class FORSBERGS_API AStatueActor : public AActor,
 {
 	GENERATED_BODY()
 
-private:
 	UScoreSubsystem* ScoreSubsystem;
 
 protected:
